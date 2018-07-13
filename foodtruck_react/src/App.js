@@ -1,13 +1,13 @@
 import React, { Component } from "react";
+import FoodtruckList from "./components/FoodtruckList";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
   render() {
-    return <React.Fragment>hi!</React.Fragment>;
+    return (
+      <React.Fragment>
+        <FoodtruckList />
+      </React.Fragment>
+    );
   }
 }
 
