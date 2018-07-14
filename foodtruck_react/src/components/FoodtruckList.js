@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import {
   Card,
+  Button,
   CardTitle,
   CardBody,
   CardSubtitle,
@@ -11,13 +12,18 @@ import {
   Container
 } from "reactstrap";
 
+import NewTruckModal from "./NewTruckModal";
+
 class FoodtruckList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      foodtrucks: []
+      foodtrucks: [],
+      showModal: false
     };
+
+    this.onToggleModal = this.onToggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +35,10 @@ class FoodtruckList extends React.Component {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  onToggleModal() {
+    this.setState({ showModal: !this.state.showModal });
   }
 
   render() {
@@ -51,8 +61,13 @@ class FoodtruckList extends React.Component {
       <React.Fragment>
         <Container className="mt-4">
           <h1 className="text-center">Foodtrucks</h1>
-          <Row className="mt-5">{foodtruckList}</Row>
+          <Button onClick={this.onToggleModal}>Add new</Button>
+          <Row className="mt-3">{foodtruckList}</Row>
         </Container>
+        <NewTruckModal
+          showModal={this.state.showModal}
+          onToggleModal={this.onToggleModal}
+        />
       </React.Fragment>
     );
   }
