@@ -41,7 +41,7 @@ class FoodtruckList extends React.Component {
             <CardBody>
               <CardTitle>{foodtruck.vendorName}</CardTitle>
               <CardSubtitle>{foodtruck.foodType}</CardSubtitle>
-              <CardText>Website: {foodtruck.metadata.url}</CardText>
+              <CardText>{foodtruck.metadata.url}</CardText>
             </CardBody>
           </Card>
         </Col>
@@ -49,9 +49,9 @@ class FoodtruckList extends React.Component {
     });
     return (
       <React.Fragment>
-        <Container>
+        <Container className="mt-4">
           <h1 className="text-center">Foodtrucks</h1>
-          <Row>{foodtruckList}</Row>
+          <Row className="mt-5">{foodtruckList}</Row>
         </Container>
       </React.Fragment>
     );
