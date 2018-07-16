@@ -7,10 +7,11 @@ import {
   ModalFooter,
   FormGroup,
   Label,
-  Input,
-  Col,
-  FormText
+  Input
+  // Col,
+  // FormText
 } from "reactstrap";
+import axios from "axios";
 
 class NewTruckModal extends React.Component {
   constructor(props) {
@@ -120,16 +121,49 @@ class NewTruckModal extends React.Component {
               />
             </FormGroup>
 
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="companyLogo">Company Logo</Label>
               <Input type="file" name="companyLogo" id="companyLogo" />
               <FormText color="muted">Upload a logo</FormText>
-            </FormGroup>
+            </FormGroup> */}
 
             <FormGroup check>
               <Label check>
                 <Input type="checkbox" name="vegan" onChange={this.onChange} />{" "}
                 Vegan
+              </Label>
+            </FormGroup>
+
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="vegetarian"
+                  onChange={this.onChange}
+                />{" "}
+                Vegetarian
+              </Label>
+            </FormGroup>
+
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="gluten-free"
+                  onChange={this.onChange}
+                />{" "}
+                Gluten-free
+              </Label>
+            </FormGroup>
+
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="organic"
+                  onChange={this.onChange}
+                />{" "}
+                Organic
               </Label>
             </FormGroup>
           </form>
@@ -138,9 +172,6 @@ class NewTruckModal extends React.Component {
           <Button color="primary" onClick={this.onSubmit}>
             Submit
           </Button>{" "}
-          {/* <Button color="secondary" onClick={this.toggle}>
-            Cancel
-          </Button> */}
         </ModalFooter>
       </Modal>
     );
