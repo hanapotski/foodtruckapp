@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Modal,
@@ -10,8 +10,12 @@ import {
   Input
   // Col,
   // FormText
-} from "reactstrap";
-import axios from "axios";
+} from 'reactstrap';
+import axios from 'axios';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from 'react-places-autocomplete';
 
 class NewTruckModal extends React.Component {
   constructor(props) {
@@ -19,33 +23,30 @@ class NewTruckModal extends React.Component {
 
     this.state = {
       truckInfo: {
-        vendorName: "",
-        foodType: "",
-        companyName: "",
-        phoneNumber: "",
-        companyWebsite: "",
-        companyLogo: "",
+        vendorName: '',
+        foodType: '',
+        companyName: '',
+        phoneNumber: '',
+        companyWebsite: '',
+        companyLogo: '',
         vegan: false
-      }
+      },
+      address: ''
     };
-
-    this.toggle = this.toggle.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
-  toggle() {
+  toggle = () => {
     this.props.onToggleModal();
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-  }
+  };
 
-  onChange(e) {
+  onChange = e => {
     const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     const name = e.target.name;
     console.log(name, value);
     this.setState({
@@ -54,7 +55,18 @@ class NewTruckModal extends React.Component {
         [name]: value
       }
     });
-  }
+  };
+
+  handleChange = address => {
+    this.setState({ address });
+  };
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error));
+  };
 
   render() {
     return (
@@ -75,6 +87,53 @@ class NewTruckModal extends React.Component {
                 placeholder="Vendor Name"
                 onChange={this.onChange}
               />
+            </FormGroup>
+
+            <FormGroup>
+              <Label for="vendorName">Address</Label>
+              <PlacesAutocomplete
+                value={this.state.address}
+                onChange={this.handleChange}
+                onSelect={this.handleSelect}
+              >
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading
+                }) => (
+                  <div>
+                    <input
+                      {...getInputProps({
+                        placeholder: 'Foodtruck location ...',
+                        className: 'location-search-input'
+                      })}
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? 'suggestion-item--active'
+                          : 'suggestion-item';
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
             </FormGroup>
 
             <FormGroup>
@@ -129,7 +188,7 @@ class NewTruckModal extends React.Component {
 
             <FormGroup check>
               <Label check>
-                <Input type="checkbox" name="vegan" onChange={this.onChange} />{" "}
+                <Input type="checkbox" name="vegan" onChange={this.onChange} />{' '}
                 Vegan
               </Label>
             </FormGroup>
@@ -140,7 +199,7 @@ class NewTruckModal extends React.Component {
                   type="checkbox"
                   name="vegetarian"
                   onChange={this.onChange}
-                />{" "}
+                />{' '}
                 Vegetarian
               </Label>
             </FormGroup>
@@ -151,7 +210,7 @@ class NewTruckModal extends React.Component {
                   type="checkbox"
                   name="gluten-free"
                   onChange={this.onChange}
-                />{" "}
+                />{' '}
                 Gluten-free
               </Label>
             </FormGroup>
@@ -162,7 +221,7 @@ class NewTruckModal extends React.Component {
                   type="checkbox"
                   name="organic"
                   onChange={this.onChange}
-                />{" "}
+                />{' '}
                 Organic
               </Label>
             </FormGroup>
@@ -171,7 +230,7 @@ class NewTruckModal extends React.Component {
         <ModalFooter>
           <Button color="primary" onClick={this.onSubmit}>
             Submit
-          </Button>{" "}
+          </Button>{' '}
         </ModalFooter>
       </Modal>
     );
