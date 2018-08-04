@@ -1,5 +1,5 @@
-import React from "react";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
 import {
   Card,
   Button,
@@ -10,9 +10,9 @@ import {
   Row,
   Col,
   Container
-} from "reactstrap";
+} from 'reactstrap';
 
-import NewTruckModal from "./NewTruckModal";
+import NewTruckModal from './NewTruckModal';
 
 class FoodtruckList extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class FoodtruckList extends React.Component {
 
   componentDidMount() {
     axios
-      .get("https://ftruck-api.herokuapp.com/api/foodTrucks/")
+      .get('https://ftruck-api.herokuapp.com/api/foodTrucks/')
       .then(result => {
         this.setState({ foodtrucks: result.data });
       })
